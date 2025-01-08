@@ -1,11 +1,10 @@
-from fastapi import (
-    FastAPI,
-)
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 
-from src.api.main import api_router
+# from src.api.main import api_router
 from src.config import settings
 
 
@@ -24,4 +23,13 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(api_router)
+
+
+@app.get("/")
+def redirect():
+    # Redirect to new website
+    response = RedirectResponse(url="https://sg-lib-books.web.app/dashboard")
+    return response
+
+
+# app.include_router(api_router)
