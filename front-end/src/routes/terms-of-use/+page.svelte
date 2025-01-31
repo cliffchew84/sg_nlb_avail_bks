@@ -25,7 +25,7 @@
 
 	<h2 class="text-xl font-semibold text-slate-700">2.3 Limitation of Liability</h2>
 	<p class="mb-3">
-		We make no guarantees about the service’s availability or functionality. We are not responsible
+		We make no guarantees about the service's availability or functionality. We are not responsible
 		for data loss, service interruptions, or any damages arising from using the app.
 	</p>
 

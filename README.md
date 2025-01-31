@@ -6,11 +6,11 @@ This is the repository for a side project, [SGLibReads](https://sg-nlb-available
 
 ### Why One - Providing a better way to search for NLB books
 
-As of 2023, both the Singapore National Library Board’s (NLB) app and website are great and functional. However, I found it difficult to save and search for book availability on their app and website. Wanting an easier way to hunt down the library books, I hacked out a rudimentary technical solution for my own personal use. As the stars started to align and I learned more technical skills, thanks to NLB and the NLB Udemy Biz account no less, I realised I could develop a solution for the general Singapore public too. I hope to create value for the Singapore public, using skills I learned from public funds.
+As of 2023, both the Singapore National Library Board's (NLB) app and website are great and functional. However, I found it difficult to save and search for book availability on their app and website. Wanting an easier way to hunt down the library books, I hacked out a rudimentary technical solution for my own personal use. As the stars started to align, and I learned more technical skills, thanks to NLB and the NLB Udemy Biz account no less, I realised I could develop a solution for the general Singapore public too. I hope to create value for the Singapore public, using skills I learned from public funds.
 
 ### Why Two - Changing SG government tech culture
 
-When I learned about the [NLB public APIs](https://www.nlb.gov.sg/main/partner-us/contribute-and-create-with-us/NLBLabs), I realise I could use it for this side project. Unfortunately, the NLB API has so far provided a rather subpar developer experience (see my review [here](https://medium.com/@cliffy-gardens/how-good-is-our-latest-singapore-library-apis-an-honest-review-c32b03e8299b)). Nonetheless, I do feel this is also a chance to start more conversations on how some of our government agencies are running their tech deployments. I know there are competent government agencies running excellent tech solutions for Singapore too, and I hope this side project can do its part to contribute to the further strengthening of the Singapore technical core. Those interested in this conversation can follow me on [Medium](https://medium.com/@cliffy-gardens), or add me on [Linkedin](https://www.linkedin.com/in/cliff-chew-kt/).
+When I learned about the [NLB public APIs](https://www.nlb.gov.sg/main/partner-us/contribute-and-create-with-us/NLBLabs), I realise I could use it for this side project. Unfortunately, the NLB API has so far provided a rather subpar developer experience (see my review [here](https://medium.com/@cliffy-gardens/how-good-is-our-latest-singapore-library-apis-an-honest-review-c32b03e8299b)). Nonetheless, I do feel this is also a chance to start more conversations on how some of our government agencies are running their tech deployments. I know there are competent government agencies running excellent tech solutions for Singapore too, and I hope this side project can do its part to contribute to the further strengthening of the Singapore technical core. Those interested in this conversation can follow me on [Medium](https://medium.com/@cliffy-gardens), or add me on [LinkedIn](https://www.linkedin.com/in/cliff-chew-kt/).
 
 ### Why Three - Adding more technical skills
 
@@ -27,12 +27,14 @@ The following section details the setup steps and development workflow for this 
 ### Prerequisites
 
 Development:
+
 - Node.js and npm (for frontend)
-- Python (for backend)
+- Python 3.11+ (for backend)
 - Supabase CLI
 - Docker (for Supabase)
 
 Deployment:
+
 - Firebase CLI
 - Google Cloud CLI
 
@@ -51,15 +53,42 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
     supabase login
     ```
 
-1. Start the local Supabase instance:.
+1. Start the local Supabase instance:
 
     ```bash
     supabase start
     ```
 
-1. As the local Supabase instance spinned up, take note of the `anon key`
- and `service_role key` from the console as they need to be filled into
- `.env` files of front-end and back-end subsequently.
+##### Google Auth Setup
+
+Only works on managed supabase instances at supabase.com
+
+1. Create a supabase project and go to `Authentication` -> `Providers`, and enable Google Auth. Copy the callback URL.
+
+1. Go to `Project Settings` and note down your supabase project ID.
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com) and create a new project.
+
+1. Navigate to `APIs & Services` -> `Library`, search for `Identity Toolkit API` and enable it.
+
+1. Go to `APIs & Services` -> `Credentials`.
+
+1. Click `Create Credentials` -> `OAuth 2.0 Client ID`.
+
+1. Configure your consent screen. Then go back to `APIs & Services` -> `Credentials` + `Create Credentials` -> `OAuth 2.0 Client ID` and refresh the page.
+
+1. Select `Web Application` as the type.
+
+1. Add the following URLs under `Authorized Redirect URIs`: `http://localhost:54321/auth/v1/callback` and the callback URL you copied in step 1.
+
+1. Click `Create`.
+
+    In the project root folder, run
+
+    ```bash
+    supabase link --project-ref '<PROJECT_ID>' # From Supabase Project Settings page
+    supabase db push
+    ```
 
 #### 1.2 Back-end FastAPI Server Setup
 
@@ -76,11 +105,10 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
 1. Copy the example environment file:.
 
     ```bash
-    cp .env.example .env
+    cp --update=none .env.example .env
     ```
 
-1. Update the .env file with the Supabase API keys and other necessary configurations.
- A seperate request for a API Key is required to access NLB's Catalogue API [here](https://www.nlb.gov.sg/main/partner-us/contribute-and-create-with-us/NLBLabs).
+1. Update the .env file with the Supabase API credentials and NLB Catalogue API credentials. For Supabase API credentials, you can view them via the Supabase dashboard under `Configuration` -> `API`. For NLB Catalogue API credentials, you will need to make a separate request for API access via [this form](https://www.nlb.gov.sg/main/partner-us/contribute-and-create-with-us/NLBLabs).
 
 #### 1.3 Front-end Svelte Setup
 
@@ -90,10 +118,10 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
     cd front-end
     ```
 
-1. Copy the example environment file. Remember to update your Supabase anon key accordingly.
+1. Copy the example environment file. Update your Supabase anon key accordingly. You can view them via the Supabase dashboard under `Configuration` -> `API`.
 
     ```bash
-    cp .env.example .env
+    cp --update=none .env.example .env
     ```
 
 1. Install dependencies with npm.
@@ -104,7 +132,7 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
 
 ### 2. Development Workflow
 
-1. Start-up Supabase server with supabase-cli.
+1. From project root folder, start-up Supabase server with supabase-cli.
 
     ```bash
     supabase start
@@ -120,7 +148,7 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
 1. Run Frontend (Svelte)
 
     ```bash
-    cd front-end
+    cd front-end # Run this in a separate terminal from the backend.
     npm run dev -- --open
     ```
 
@@ -139,21 +167,22 @@ The [Supabase CLI](https://supabase.io/docs/guides/cli) is required to manage
     - Builds Svelte application
     - Deploys to Firebase Hosting
 
-### Code Linting and Formating
+### Code Linting and Formatting
 
-This project uses [ruff](https://github.com/astral-sh/ruff) as Python
-code linter and formatter while [prettier](https://prettier.io) is used
-for Typescript.
+For code linting and formatting, this project uses [ruff](https://github.com/astral-sh/ruff) for Python, and [prettier](https://prettier.io) for Typescript.
 
 To integrate this seamlessly to your development workflow, we recommend
 using [pre-commit](https://pre-commit.com/) to run the formatter and linter before
-commiting to the repo.
+committing to the repository.
 
-1. run `pre-commit install` to set up the git hook scripts
+From the project root folder.
+
+1. Set up the git hook scripts
 
     ```bash
-    $ pre-commit install
-    pre-commit installed at .git/hooks/pre-commit
+    pre-commit install
     ```
 
-2. run `git commit` as usual to commit your changes.
+    You should see the message `pre-commit installed at .git/hooks/pre-commit`.
+
+2. Run `git commit` as usual to commit your changes.

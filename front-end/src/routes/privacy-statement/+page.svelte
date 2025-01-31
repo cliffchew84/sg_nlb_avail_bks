@@ -31,7 +31,7 @@
 	<h2 class="text-xl font-semibold text-slate-700">1.3 How We Use Your Data</h2>
 	<ul class="mb-3">
 		<li>To provide access to the app.</li>
-		<li>To improve the app’s performance.</li>
+		<li>To improve the app's performance.</li>
 		<li>We do not sell or share your personally identifiable information with third parties.</li>
 	</ul>
 
@@ -60,7 +60,7 @@
 
 	<h2 class="text-xl font-semibold text-slate-700">1.8 Legal Basis for Data Processing</h2>
 	<p class="mb-3">
-		We collect and process personal data in accordance with Singapore’s Personal Data Protection Act
+		We collect and process personal data in accordance with Singapore's Personal Data Protection Act
 		(PDPA). By using the app, you consent to the collection, use, and processing of your data as
 		outlined in this policy.
 	</p>

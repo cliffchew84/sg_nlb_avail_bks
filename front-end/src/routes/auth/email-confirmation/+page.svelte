@@ -16,6 +16,6 @@
 <div class="flex flex-col space-y-2 text-center">
 	<h1 class="text-2xl font-semibold tracking-tight">Email Confirmation</h1>
 	<p class="text-muted-foreground text-sm">
-		An email is sent to your inbox. Follow the link to login.
+		A confirmation email has been sent to your inbox. Follow the link provided in it to login.
 	</p>
 </div>

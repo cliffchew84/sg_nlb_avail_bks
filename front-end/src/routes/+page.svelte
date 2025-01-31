@@ -120,7 +120,7 @@
 					Calling all Singapore library users!
 				</h2>
 				<p class="text-slate-700 text-lg mb-3">
-					Tired of always missing out on your favorite books at the library? We’ve got you covered!
+					Tired of always missing out on your favorite books at the library? We've got you covered!
 				</p>
 				<ul class="text-slate-700 text-lg">
 					<li><span class="mr-3">📚</span> Bookmark your favourite titles</li>
