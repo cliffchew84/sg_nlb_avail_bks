@@ -8,8 +8,8 @@ from src.modals.base import ResponseBase, CreateBase, UpdateBase
 class UserBookBase(BaseModel):
     """User Books Mapping Table"""
 
-    """Username"""
-    UserName: str
+    """Email Address"""
+    email: str
 
     """Book Reference Number (BRN)"""
 
@@ -26,7 +26,7 @@ class UserBookCreate(CreateBase, UserBook):
 
 class UserBookUpdateBase(BaseModel):
     BID: int
-    UserName: str
+    email: str
 
 
 class UserBookUpdate(UpdateBase, UserBookUpdateBase):

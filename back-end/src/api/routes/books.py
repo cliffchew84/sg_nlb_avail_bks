@@ -34,12 +34,12 @@ async def get_books(
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Email is not found for user")
 
     try:
-        book_infos = await book_info_crud.get_multi_by_owner(db, username=user.email)
+        book_infos = await book_info_crud.get_multi_by_owner(db, email=user.email)
         return [
             BookResponse(
                 **book_info.model_dump(),
                 avails=await book_avail_crud.get_multi_by_owner(
-                    db, username=user.email, BIDs=[book_info.BID]
+                    db, email=user.email, BIDs=[book_info.BID]
                 ),
             )
             for book_info in book_infos
@@ -90,7 +90,7 @@ async def get_book(
             # If book was saved, its availiblity exists in database
             # If fetch_live param is set, live data will be queries regardless
             book_avail = await book_avail_crud.get_multi_by_owner(
-                db, username=user.email, BIDs=[bid]
+                db, email=user.email, BIDs=[bid]
             )
         else:
             print("Querying live:")
@@ -186,7 +186,7 @@ async def like_book(
         await book_info_crud.create_book_by_user(
             db,
             obj_in=book_info_result,
-            username=user.email,
+            email=user.email,
         )
         all_avail_bks = [
             BookAvailCreate.from_nlb(item) for item in response_avail.parsed.items or []
@@ -306,5 +306,5 @@ async def unlike_book(bid: int, db: SDBDep, user: CurrentUser):
 
     bid_no = str(bid)
 
-    await book_info_crud.delete_owner(db, i=bid_no, username=user.email)
+    await book_info_crud.delete_owner(db, i=bid_no, email=user.email)
     return

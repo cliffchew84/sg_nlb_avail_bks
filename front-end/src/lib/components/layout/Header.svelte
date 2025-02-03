@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
 	import type { User } from '@supabase/supabase-js';
-	import { Book, LibraryBig, LogOut, LogIn, Search } from 'lucide-svelte';
+	import { Book, LibraryBig, LogOut, LogIn, Search, Settings } from 'lucide-svelte';
 
 	import type BackendAPIClient from '$lib/api/client';
 	import * as Avatar from '$lib/components/ui/avatar';
@@ -82,10 +82,10 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>My Account</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<!-- <DropdownMenu.Item href="/dashboard/settings"> -->
-						<!-- 	<Settings class="mr-2 h-4 w-4" /> -->
-						<!-- 	<span>Settings</span> -->
-						<!-- </DropdownMenu.Item> -->
+						<DropdownMenu.Item href="/dashboard/settings">
+							<Settings class="mr-2 h-4 w-4" />
+							<span>Settings</span>
+						</DropdownMenu.Item>
 						<DropdownMenu.Item href="/auth/sign-out">
 							<LogOut class="mr-2 h-4 w-4" />
 							<span>Log out</span>

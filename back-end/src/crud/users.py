@@ -23,16 +23,6 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     async def get(self, db: Client, *, i: str) -> User | None:
         return await super().get(db, i=i)
 
-    async def get_user_by_email(self, db: Client, *, email: str) -> User | None:
-        response = (
-            db.table(self.model.table_name)
-            .select("*")
-            .eq("email_address", email)
-            .execute()
-        )
-        got = response.data
-        return self.model(**got[0]) if got else None
-
     async def get_all(self, db: Client) -> list[User]:
         return await super().get_all(db)
 

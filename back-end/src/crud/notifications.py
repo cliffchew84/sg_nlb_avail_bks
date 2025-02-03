@@ -26,13 +26,11 @@ class CRUDNotification(CRUDBase[Notification, NotificationCreate, NotificationUp
     async def get_all(self, db: Client) -> list[Notification]:
         return await super().get_all(db)
 
-    async def get_multi_by_owner(
-        self, db: Client, *, username: str
-    ) -> list[Notification]:
+    async def get_multi_by_owner(self, db: Client, *, email: str) -> list[Notification]:
         response = (
             db.table(self.model.table_name)
             .select("*")
-            .eq("UserName", username)
+            .eq("email", email)
             .order("createdAt", desc=True)
             .limit(25)
             .execute()

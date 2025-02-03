@@ -8,8 +8,8 @@ from src.modals.base import ResponseBase, CreateBase, UpdateBase
 class UserSearchBase(BaseModel):
     """User Search Table"""
 
-    """Username (PK)"""
-    UserName: str
+    """Email (PK)"""
+    email: str
 
     """Database insert time (milliseconds after utc)"""
     search_time: int
@@ -23,7 +23,7 @@ class UserSearchBase(BaseModel):
 
 class UserSearch(ResponseBase, UserSearchBase):
     table_name: ClassVar[str] = "user_search"
-    pk: ClassVar[str] = "UserName"
+    pk: ClassVar[str] = "email"
 
 
 class UserSearchCreate(CreateBase, UserSearch):

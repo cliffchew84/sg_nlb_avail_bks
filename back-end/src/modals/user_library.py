@@ -8,8 +8,8 @@ from src.modals.base import ResponseBase, CreateBase, UpdateBase
 class UserLibraryBase(BaseModel):
     """User Librarys Mapping Table"""
 
-    """Username"""
-    UserName: str
+    """Email Address"""
+    email: str
 
     """Library name"""
     library_name: str
@@ -24,7 +24,7 @@ class UserLibraryCreate(CreateBase, UserLibrary):
 
 
 class UserLibraryUpdateBase(BaseModel):
-    UserName: str
+    email: str
     library_name: str
 
 

@@ -1,3 +1,19 @@
+export interface User {
+	email: string;
+	username: string | undefined;
+	channel_push: boolean;
+	channel_email: boolean;
+	notification_type: 'all_notif' | 'book_updates_only' | 'no_notif';
+}
+
+export interface UserUpdate {
+	email: string;
+	username?: string;
+	channel_push?: boolean;
+	channel_email?: boolean;
+	notification_type?: 'all_notif' | 'book_updates_only' | 'no_notif';
+}
+
 export interface BookInfo {
 	BID: number;
 	TitleName?: string;

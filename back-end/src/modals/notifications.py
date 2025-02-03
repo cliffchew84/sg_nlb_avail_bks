@@ -14,7 +14,7 @@ class NotificationBase(BaseModel):
     description: str | None
     isRead: bool
     action: str | None
-    UserName: str
+    email: str
 
 
 class Notification(ResponseBase, NotificationBase):
@@ -31,7 +31,7 @@ class NotificationUpdateBase(BaseModel):
     description: str | None = None
     isRead: bool | None = None
     action: str | None = None
-    UserName: str | None = None
+    email: str | None = None
 
 
 class NotificationUpdate(UpdateBase, NotificationUpdateBase):

@@ -17,7 +17,7 @@ async def get_notifications(
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Email is not found for user")
 
     try:
-        return await notification_crud.get_multi_by_owner(db, username=user.email)
+        return await notification_crud.get_multi_by_owner(db, email=user.email)
 
     except Exception as e:
         print(e)
@@ -43,7 +43,7 @@ async def read_notification(
                 status.HTTP_404_NOT_FOUND,
                 f"Notification of {nid} could not be found from database.",
             )
-        if notification.UserName != user.email:
+        if notification.email != user.email:
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED,
                 "User is not authorized to read this notification.",
@@ -79,7 +79,7 @@ async def unread_notification(
                 status.HTTP_404_NOT_FOUND,
                 f"Notification of {nid} could not be found from database.",
             )
-        if notification.UserName != user.email:
+        if notification.email != user.email:
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED,
                 "User is not authorized to read this notification.",

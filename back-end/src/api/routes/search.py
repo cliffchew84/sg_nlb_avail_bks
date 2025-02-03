@@ -81,7 +81,7 @@ async def search_books(
     await user_search_crud.create(
         db,
         obj_in=UserSearchCreate(
-            UserName=user.email,
+            email=user.email,
             search_time=int(
                 time.mktime(datetime.now().timetuple()),
             ),

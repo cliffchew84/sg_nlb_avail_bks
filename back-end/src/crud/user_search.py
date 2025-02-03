@@ -26,13 +26,11 @@ class CRUDUserSearch(CRUDBase[UserSearch, UserSearchCreate, UserSearchUpdate]):
     async def get_all(self, db: Client) -> list[UserSearch]:
         return await super().get_all(db)
 
-    async def get_multi_by_owner(
-        self, db: Client, *, username: str
-    ) -> list[UserSearch]:
+    async def get_multi_by_owner(self, db: Client, *, email: str) -> list[UserSearch]:
         response = (
             db.table(self.model.table_name)
-            .select("*, user_books(UserName)")
-            .eq("UserName", username)
+            .select("*, user_books(email)")
+            .eq("email", email)
             .execute()
         )
         return [self.model(**item) for item in response.data]

@@ -32,10 +32,10 @@ class CRUDLibrary(
         self,
         db: Client,
         name: str,
-        username: str,
+        email: str,
     ) -> None:
         # Add user book relationship table
-        user_book = UserLibraryCreate(UserName=username, library_name=name)
+        user_book = UserLibraryCreate(email=email, library_name=name)
         db.table(UserLibrary.table_name).insert(user_book.model_dump()).execute()
         return
 
@@ -45,11 +45,11 @@ class CRUDLibrary(
     async def get_all(self, db: Client) -> list[Library]:
         return await super().get_all(db)
 
-    async def get_multi_by_owner(self, db: Client, *, username: str) -> list[Library]:
+    async def get_multi_by_owner(self, db: Client, *, email: str) -> list[Library]:
         response = (
             db.table("user_libraries")
             .select(f"*, {self.model.table_name}(*)")
-            .eq("UserName", username)
+            .eq("email", email)
             .execute()
         )
         return [
@@ -82,12 +82,12 @@ class CRUDLibrary(
     ) -> Library:
         return await super().update(db, obj_in=obj_in, i=i, excludes=excludes)
 
-    async def delete_owner(self, db: Client, *, i: str, username: str):
+    async def delete_owner(self, db: Client, *, i: str, email: str):
         (
             db.table("user_libraries")
             .delete()
             .eq("library_name", i)
-            .eq("UserName", username)
+            .eq("email", email)
             .execute()
         )
 

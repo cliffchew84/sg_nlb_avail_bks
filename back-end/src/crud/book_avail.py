@@ -32,10 +32,10 @@ class CRUDBookAvail(CRUDBase[BookAvail, BookAvailCreate, BookAvailUpdate]):
         return [self.model(**item) for item in response.data]
 
     async def get_multi_by_owner(
-        self, db: Client, *, username: str, BIDs: Optional[list[int]] = None
+        self, db: Client, *, email: str, BIDs: Optional[list[int]] = None
     ) -> list[BookAvail]:
         if BIDs is None:
-            book_infos = await book_info_crud.get_multi_by_owner(db, username=username)
+            book_infos = await book_info_crud.get_multi_by_owner(db, email=email)
             BIDs = [book_info.BID for book_info in book_infos]
         response = (
             db.table(self.model.table_name).select("*").in_("BID", BIDs).execute()

@@ -28,13 +28,10 @@ class CRUDBase(Generic[ModelT, CreateSchemaT, UpdateSchemaT]):
         response = db.table(self.model.table_name).select("*").execute()
         return [self.model(**item) for item in response.data]
 
-    async def get_multi_by_owner(self, db: Client, *, username: str) -> list[ModelT]:
+    async def get_multi_by_owner(self, db: Client, *, email: str) -> list[ModelT]:
         """get by owner,use it  if rls failed to use"""
         response = (
-            db.table(self.model.table_name)
-            .select("*")
-            .eq("UserName", username)
-            .execute()
+            db.table(self.model.table_name).select("*").eq("email", email).execute()
         )
         return [self.model(**item) for item in response.data]
 
